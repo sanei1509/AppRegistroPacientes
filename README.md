@@ -37,6 +37,12 @@ git clone <URL_DEL_REPOSITORIO>
 cd backend
 ```
 
+Copia el archivo `.env.example` y renómbralo como `.env`, luego completa los valores necesarios:
+
+```bash
+cp .env.example .env
+```
+
 ### 2️⃣ Configurar variables de entorno
 Crea un archivo `.env` en la carpeta `backend/` con el siguiente contenido:
 ```ini
