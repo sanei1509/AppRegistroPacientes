@@ -1,0 +1,3 @@
+#Cuidamos no subir nuestras variables de entorno
+node_modules/
+.env
