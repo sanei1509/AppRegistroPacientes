@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { sendConfirmationEmail } from "../services/emailService.js";
 
 const prisma = new PrismaClient();
 
@@ -33,6 +34,8 @@ export const registerPatient = async (req, res) => {
     });
 
     res.status(201).json(newPatient);
+    //Send Confirmation
+    sendConfirmationEmail(email, fullName);
   } catch (error) {
     console.error("Error registering patient:", error);
     res.status(500).json({ error: "Internal server error." });
