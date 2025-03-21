@@ -1,9 +1,9 @@
 # Aplicación de Registro de Pacientes
 
-## Objetivo
+## 📌 Objetivo
 Esta aplicación permite el registro de pacientes a través de una API REST construida con **Node.js** y **Express**, con almacenamiento en **PostgreSQL** y gestión de datos a través de **Prisma ORM**. La aplicación está contenida en **Docker** para asegurar un entorno de desarrollo reproducible.
 
-## Tecnologías utilizadas
+## 🚀 Tecnologías utilizadas
 - **Backend:** Node.js + Express
 - **Base de datos:** PostgreSQL
 - **ORM:** Prisma
@@ -20,7 +20,7 @@ backend/
 │   ├── routes/
 │   ├── services/
 │   ├── prisma/
-│   ├── app.js
+│   ├── index.js
 │   ├── server.js
 ├── .env
 ├── .gitignore
@@ -60,6 +60,7 @@ npm run dev
 ```
 
 ## 🐳 Uso con Docker
+
 ### 1️⃣ Construir y levantar los contenedores
 ```sh
 docker-compose up -d
@@ -69,7 +70,9 @@ Esto levantará:
 - Un contenedor con PostgreSQL.
 
 ### 2️⃣ Verificar logs
-
+```sh
+docker logs -f <ID_DEL_CONTENEDOR_BACKEND>
+```
 
 ### 3️⃣ Apagar los contenedores
 ```sh
@@ -117,17 +120,11 @@ docker-compose down
 ]
 ```
 
-## Preguntas Frecuentes (FAQ)
 
-### ❓ ¿Puedo usar otra base de datos?
-Actualmente, el backend está diseñado para **PostgreSQL**, pero podrías modificar la configuración de Prisma para usar MySQL o SQLite.
+## Preguntas Comunes
 
-### ❓ ¿Es necesario Docker para ejecutar el backend?
-No, puedes correrlo localmente sin Docker siguiendo los pasos de la sección **"Instalación y Configuración"**.
+### ¿Es obligatorio usar Docker?
+No, podés correrlo localmente como se indica arriba.
 
-### ❓ ¿Cómo puedo contribuir o reportar problemas?
-Si encuentras un bug o quieres contribuir, abre un **issue** o crea un **pull request** en el repositorio.
-
----
-
-
+### ¿Cómo veo los correos enviados?
+Registrate en mailtrap.io, copiá las credenciales SMTP y usalas en tu .env. Los correos aparecerán ahí.
