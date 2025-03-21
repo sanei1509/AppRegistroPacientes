@@ -5,6 +5,7 @@ Este backend fue desarrollado como parte de una prueba técnica. Su objetivo pri
 ## Objetivo
 Desarrollar una API para gestionar el registro de pacientes de forma segura, validando los datos ingresados y almacenándolos de forma persistente.
 
+
 ## Funcionalidades requeridas
 
 - ✅ Registro de pacientes con los siguientes datos:
