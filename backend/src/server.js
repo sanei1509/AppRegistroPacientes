@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import patientRoutes from "./routes/patientRoutes.js";
 
 dotenv.config();
 
@@ -12,6 +13,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("API funcionando correctamente 🚀");
 });
+
+app.use("/api/patients", patientRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
