@@ -5,9 +5,13 @@ const prisma = new PrismaClient();
 
 export const registerPatient = async (req, res) => {
   try {
-    const { fullName, email, phone, photoUrl } = req.body;
+    const { fullName, email, phone } = req.body;
+    const photoFile = req.file;
 
-    if (!fullName || !email || !phone) {
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
+    
+    if (!fullName || !email || !phone || !photoFile) {
       return res.status(400).json({ error:  "All fields are required."  });
     }
 
@@ -23,6 +27,8 @@ export const registerPatient = async (req, res) => {
     if (!email.toLowerCase().endsWith("@gmail.com")) {
         return res.status(400).json({ error: "Only Gmail addresses are allowed." });
     }
+
+    const photoUrl = `/uploads/${photoFile.filename}`;
 
     const newPatient = await prisma.patient.create({
       data: {

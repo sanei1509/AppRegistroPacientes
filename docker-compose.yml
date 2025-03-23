@@ -29,6 +29,8 @@ services:
       - MAIL_PASS=${MAIL_PASS}
     depends_on:
       - db
+    volumes:
+      - ./uploads:/app/uploads
 
   frontend:
     build:

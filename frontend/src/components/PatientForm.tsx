@@ -15,11 +15,9 @@ export const PatientForm = () => {
   const {
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
   } = methods;
 
-  const photoFile = watch("photo");
   const [dragActive, setDragActive] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
