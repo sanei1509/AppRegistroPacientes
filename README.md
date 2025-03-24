@@ -13,6 +13,7 @@ A full-stack application to register and manage patients, built with **Node.js**
 <img src="screenshots/home.png" width="600" alt="home Screenshot"/>
 <img src="screenshots/form.png" width="600" alt="Form Screenshot"/>
 <img src="screenshots/mail-notification-register.png" width="600" alt="mail notification Screenshot"/>
+<img src="screenshots/tests-postman.png" width="600" alt="tests postman Screenshot"/>
 
 ---
 
