@@ -9,7 +9,6 @@ A full-stack application to register and manage patients, built with **Node.js**
 ---
 
 ## 📸 Demo
-
 <img src="screenshots/home.png" width="600" alt="home Screenshot"/>
 <img src="screenshots/form.png" width="600" alt="Form Screenshot"/>
 <img src="screenshots/mail-notification-register.png" width="600" alt="mail notification Screenshot"/>
@@ -42,7 +41,7 @@ A full-stack application to register and manage patients, built with **Node.js**
 │   └── server.js
 ├── frontend/
 │   ├── components/
-│   ├── pages/
+│   ├── App.tsx
 │   ├── styles/
 │   └── main.tsx
 ├── docker-compose.yml

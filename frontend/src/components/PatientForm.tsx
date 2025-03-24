@@ -1,6 +1,6 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { patientSchema } from "../schemas/patientSchema.";
+import { patientSchema } from "../schemas/patientSchema";
 import { z } from "zod";
 import { InputField } from "./form/InputField";
 import { useState } from "react";
@@ -50,7 +50,7 @@ export const PatientForm = ({ onSuccess, onError }: PatientFormProps) => {
       }
 
       const result = await response.json();
-      console.log("Paciente registrado con éxito:", result);
+      return result;
       onSuccess();
     } catch (error) {
       console.error("Error sending data:", error);

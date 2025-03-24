@@ -7,9 +7,6 @@ export const registerPatient = async (req, res) => {
   try {
     const { fullName, email, phone } = req.body;
     const photoFile = req.file;
-
-    console.log("BODY:", req.body);
-    console.log("FILE:", req.file);
     
     if (!fullName || !email || !phone || !photoFile) {
       return res.status(400).json({ error:  "All fields are required."  });

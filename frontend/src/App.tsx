@@ -9,6 +9,7 @@ import { PatientForm } from './components/PatientForm';
 import { Toast } from './components/Toast';
 import { DashboardStats } from './components/DashboardStats';
 import { FaNotesMedical, FaPlus } from "react-icons/fa";
+import { fetchPatients } from './services/patientServices';
 
 function App() {
   const [patients, setPatients] = useState<Patient[]>();;
@@ -16,20 +17,19 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
-  const fetchPatients = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/patients`);
-      const data = await response.json();
-      setPatients(Array.isArray(data) ? data : []);
-    } catch (error) {
-      console.error("Error fetching patients:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchPatients();
+    const loadPatients = async () => {
+      try {
+        const data = await fetchPatients();
+        setPatients(data);
+      } catch (error) {
+        console.error("Error fetching patients:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    loadPatients();
   }, []);
 
 
@@ -43,8 +43,6 @@ function App() {
     await fetchPatients();
   };
   
-
-  console.log("Pacientes", patients);
   return (
     <div>
       <h1 className="app-title">

@@ -10,10 +10,10 @@ type Props = {
 export const PatientCard = ({ patient }: Props) => {
   const [expanded, setExpanded] = useState(false);
 
-  const baseURL = "http://localhost:5000";
+  const baseUrl = import.meta.env.VITE_BASE_URL;
   const imageUrl = patient.photoUrl.startsWith("http")
     ? patient.photoUrl
-    : `${baseURL}${patient.photoUrl}`;
+    : `${baseUrl}${patient.photoUrl}`;
 
   return (
     <div className="patient-card" onClick={() => setExpanded(!expanded)}>

@@ -11,8 +11,6 @@ export const PatientList = ({ patients }: Props) => {
     return <p>No patients found.</p>;
   }
 
-  console.log("Patients received:", patients);
-
   return (
     <div className="patient-list__container">
       {patients.map((p) => (
