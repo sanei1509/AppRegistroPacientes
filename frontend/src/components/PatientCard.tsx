@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Patient } from "../types";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import "./PatientCard.css";
 
 type Props = {
   patient: Patient;
@@ -8,48 +10,29 @@ type Props = {
 export const PatientCard = ({ patient }: Props) => {
   const [expanded, setExpanded] = useState(false);
 
-  // Detectamos si la URL ya es absoluta, y si no, la completamos con la base del backend
-  const baseURL = "http://localhost:5000"; // e.g. http://localhost:5000
+  const baseURL = "http://localhost:5000";
   const imageUrl = patient.photoUrl.startsWith("http")
     ? patient.photoUrl
-    : `${baseURL}${patient.photoUrl}`; // ej: http://localhost:5000/uploads/imagen.jpg
+    : `${baseURL}${patient.photoUrl}`;
 
-    console.log("Image URL:", imageUrl)
   return (
-    <div
-      onClick={() => setExpanded(!expanded)}
-      style={{
-        borderRadius: "12px",
-        padding: "2.5rem 1.0rem",
-        backgroundColor: "#00879E",
-        color: "#fff",
-        boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
-        cursor: "pointer",
-        transition: "transform 0.2s ease",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <img
-        src={imageUrl}
-        alt="Document"
-        style={{
-          maxWidth: "150px",
-          height: "100px",
-          objectFit: "cover",
-          borderRadius: "4px",
-          marginBottom: "1rem",
-        }}
-      />
-      <h3 style={{ margin: 0, marginBottom: "0.5rem" }}>{patient.fullName}</h3>
+    <div className="patient-card" onClick={() => setExpanded(!expanded)}>
+      <img src={imageUrl} alt="Document" className="patient-card__image" />
 
-      {expanded && (
-        <div style={{ marginTop: "1rem", textAlign: "center" }}>
-          <p><strong>Email:</strong> {patient.email}</p>
-          <p><strong>Phone:</strong> {patient.phone}</p>
-        </div>
-      )}
+      <h3 className="patient-card__name">{patient.fullName}</h3>
+
+      <div className="patient-card__icon">
+        {expanded ? <FaChevronUp /> : <FaChevronDown />}
+      </div>
+
+      <div className={`patient-card__details ${expanded ? "patient-card__details--expanded" : ""}`}>
+        <p className="patient-card__detail-item">
+          <strong>Email:</strong> {patient.email}
+        </p>
+        <p className="patient-card__detail-item">
+          <strong>Phone:</strong> {patient.phone}
+        </p>
+      </div>
     </div>
   );
 };

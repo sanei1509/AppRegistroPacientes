@@ -6,67 +6,74 @@ import { EmptyState } from './components/EmptyState';
 import { Loader } from './components/Loader';
 import Modal from './components/Modal';
 import { PatientForm } from './components/PatientForm';
+import { Toast } from './components/Toast';
+import { DashboardStats } from './components/DashboardStats';
+import { FaNotesMedical, FaPlus } from "react-icons/fa";
 
 function App() {
   const [patients, setPatients] = useState<Patient[]>();;
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+
+  const fetchPatients = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/patients`);
+      const data = await response.json();
+      setPatients(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error fetching patients:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchPatients = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/patients`, {
-          method: 'GET'
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setPatients(Array.isArray(data) ? data : []);
-      } catch (error) {
-        console.error("Error fetching patients:", error);
-      } finally {
-        setLoading(false);
-        console.log(loading);
-      }
-    };
-
     fetchPatients();
   }, []);
+
+
+  const showToast = (message: string, type: "success" | "error") => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 4000);
+  };
+
+  const handlePatientAdded = async () => {
+    setShowModal(false);
+    await fetchPatients();
+  };
+  
 
   console.log("Pacientes", patients);
   return (
     <div>
-      <h1>Registro de pacientes</h1>
-      <button
-        onClick={() => setShowModal(true)}
-        style={{
-          backgroundColor: "#00879E",
-          color: "#fff",
-          padding: "0.75rem 1.5rem",
-          border: "none",
-          borderRadius: "8px",
-          fontSize: "1rem",
-          fontWeight: "bold",
-          cursor: "pointer",
-          boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-          transition: "background-color 0.3s, transform 0.2s",
-          marginBottom: "1.5rem"
-        }}
-      >
-        Add Patient
+      <h1 className="app-title">
+        <FaNotesMedical className="app-title-icon" /> Patient Management
+      </h1>
+      <p>Easily manage your patient records now!</p>
+      
+      <button className="add-button" onClick={() => setShowModal(true)}>
+        <FaPlus /> Add Patient
       </button>
-
+      
+      {patients && <DashboardStats patients={patients} />}
 
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <h2 style={{ marginBottom: '1rem' }}>Register New Patient</h2>
-          <PatientForm />
+          
+          <PatientForm
+              onSuccess={() => {
+                handlePatientAdded();
+                showToast("Patient successfully registered ", "success");
+              }}
+              onError={(msg) => showToast(msg, "error")}
+          />
+        
         </Modal>
       )}
 
+      {toast && <Toast message={toast.message} type={toast.type} />}
 
       {loading ? (
         <Loader />

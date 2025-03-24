@@ -4,10 +4,17 @@ import { patientSchema } from "../schemas/patientSchema.";
 import { z } from "zod";
 import { InputField } from "./form/InputField";
 import { useState } from "react";
+import { Loader } from "./Loader";
+import "./PatientForm.css";
 
 type PatientFormData = z.infer<typeof patientSchema>;
 
-export const PatientForm = () => {
+type PatientFormProps = {
+  onSuccess: () => void;
+  onError: (message: string) => void;
+};
+
+export const PatientForm = ({ onSuccess, onError }: PatientFormProps) => {
   const methods = useForm<PatientFormData>({
     resolver: zodResolver(patientSchema),
   });
@@ -20,13 +27,37 @@ export const PatientForm = () => {
 
   const [dragActive, setDragActive] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = (data: PatientFormData) => {
-    const finalData = {
-      ...data,
-      phone: `${data.countryCode}${data.phone}`,
-    };
-    console.log("Submitted patient data:", finalData);
+  const onSubmit = async (data: PatientFormData) => {
+    const formData = new FormData();
+    formData.append("fullName", data.fullName);
+    formData.append("email", data.email);
+    formData.append("phone", `${data.countryCode}${data.phone}`);
+    formData.append("photoUrl", data.photo);
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/patients`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        onError(errorData.error || "Error registering patient.");
+        return;
+      }
+
+      const result = await response.json();
+      console.log("Paciente registrado con éxito:", result);
+      onSuccess();
+    } catch (error) {
+      console.error("Error sending data:", error);
+      onError("An unexpected error occurred.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleFile = (file: File) => {
@@ -58,19 +89,13 @@ export const PatientForm = () => {
     setDragActive(false);
   };
 
+  if (isSubmitting) {
+    return <Loader />;
+  }
+
   return (
     <FormProvider {...methods}>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          textAlign: "start",
-          alignItems: "center",
-          maxWidth: "400px",
-          margin: "0 auto",
-        }}
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="patient-form">
         <InputField name="fullName" label="Full Name" />
         <InputField name="email" label="Email" />
         <InputField name="countryCode" label="Country Code" defaultValue="+598" />
@@ -80,40 +105,14 @@ export const PatientForm = () => {
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
-          style={{
-            width: "100%",
-            height: previewUrl ? "160px" : "120px",
-            border: `2px dashed ${
-              dragActive ? "#4CAF50" : previewUrl ? "#8bc34a" : "#ccc"
-            }`,
-            borderRadius: "8px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: "1rem",
-            backgroundColor: dragActive
-              ? "#f0fff4"
-              : previewUrl
-              ? "#f6fff3"
-              : "#f9f9f9",
-            transition: "border-color 0.3s",
-            position: "relative",
-            padding: "0.5rem",
-            overflow: "hidden",
-          }}
+          className={`patient-form__dropzone 
+            ${dragActive ? "patient-form__dropzone--drag-active" : ""}
+            ${previewUrl ? "patient-form__dropzone--preview" : ""}
+          `}
         >
-          <label htmlFor="file" style={{ cursor: "pointer", textAlign: "center" }}>
+          <label htmlFor="file" className="patient-form__file-label">
             {previewUrl ? (
-              <img
-                src={previewUrl}
-                alt="Preview"
-                style={{
-                  maxHeight: "100%",
-                  maxWidth: "100%",
-                  borderRadius: "6px",
-                  objectFit: "cover",
-                }}
-              />
+              <img src={previewUrl} alt="Preview" className="patient-form__preview-img" />
             ) : (
               "Drag and drop .jpg image here or click to upload"
             )}
@@ -131,26 +130,9 @@ export const PatientForm = () => {
           />
         </div>
 
-        {errors.photo && (
-          <p style={{ color: "red", marginTop: "0.3rem", fontSize: "0.75rem" }}>
-            {errors.photo.message as string}
-          </p>
-        )}
+        {errors.photo && <p className="patient-form__error">{errors.photo.message as string}</p>}
 
-        <button
-          type="submit"
-          style={{
-            marginTop: "1.5rem",
-            padding: "0.6rem 1.5rem",
-            backgroundColor: "#00879E",
-            color: "#fff",
-            border: "none",
-            borderRadius: "5px",
-            fontWeight: "bold",
-            cursor: "pointer",
-            transition: "background-color 0.3s",
-          }}
-        >
+        <button type="submit" className="patient-form__submit">
           Register
         </button>
       </form>
