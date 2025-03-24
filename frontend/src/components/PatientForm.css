@@ -1,0 +1,66 @@
+.patient-form {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    align-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .patient-form__dropzone {
+    width: 100%;
+    height: 120px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+    position: relative;
+    padding: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .patient-form__dropzone--drag-active {
+    border-color: #4caf50;
+    background-color: #f0fff4;
+  }
+  
+  .patient-form__dropzone--preview {
+    height: 160px;
+    border-color: #8bc34a;
+    background-color: #f6fff3;
+  }
+  
+  .patient-form__preview-img {
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 6px;
+    object-fit: cover;
+  }
+  
+  .patient-form__file-label {
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .patient-form__error {
+    color: red;
+    margin-top: 0.3rem;
+    font-size: 0.75rem;
+  }
+  
+  .patient-form__submit {
+    margin-top: 1.5rem;
+    padding: 0.6rem 1.5rem;
+    background-color: #00879e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
