@@ -50,7 +50,7 @@ export const PatientForm = ({ onSuccess, onError }: PatientFormProps) => {
       }
 
       const result = await response.json();
-      return result;
+      console.log(result);
       onSuccess();
     } catch (error) {
       console.error("Error sending data:", error);

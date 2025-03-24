@@ -40,7 +40,12 @@ function App() {
 
   const handlePatientAdded = async () => {
     setShowModal(false);
-    await fetchPatients();
+    try {
+      const updatedPatients = await fetchPatients();
+      setPatients(updatedPatients);
+    } catch (error) {
+      console.error("Error updating patient list:", error);
+    }
   };
   
   return (

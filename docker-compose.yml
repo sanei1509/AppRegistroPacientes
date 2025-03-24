@@ -20,13 +20,11 @@ services:
     container_name: backend_api
     ports:
       - "5000:5000"
+    env_file:
+      - ./backend/.env
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/patients_db
       - PORT=5000
-      - MAIL_HOST=${MAIL_HOST}
-      - MAIL_PORT=${MAIL_PORT}
-      - MAIL_USER=${MAIL_USER}
-      - MAIL_PASS=${MAIL_PASS}
     depends_on:
       - db
     volumes:
