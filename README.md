@@ -1,5 +1,3 @@
-¡Perfecto! Aquí tenés una versión actualizada en inglés, con instrucciones claras, un apartado para capturas y un estilo profesional:
-
 ---
 
 # 🏥 Patient Registration App
